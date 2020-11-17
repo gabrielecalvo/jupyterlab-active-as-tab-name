@@ -12,18 +12,13 @@ import { Title, Widget } from '@lumino/widgets';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jupyterlab-active-as-tab-name',
   autoStart: true,
-  requires: [
-    ILabShell,
-  ],
-  activate: (
-    app: JupyterFrontEnd,
-    labShell: ILabShell
-  ) => {    
+  requires: [ILabShell],
+  activate: (app: JupyterFrontEnd, labShell: ILabShell) => {
     const onTitleChanged = (title: Title<Widget>) => {
       console.log('the JupyterLab main application:', title);
       document.title = title.label;
     };
-    
+
     // Keep the session object on the status item up-to-date.
     labShell.currentChanged.connect((_, change) => {
       const { oldValue, newValue } = change;
@@ -37,9 +32,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         newValue.title.changed.connect(onTitleChanged);
       }
     });
-
   }
 };
 
 export default extension;
-
